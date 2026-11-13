@@ -1,0 +1,15 @@
+[Unit]
+Description=Hold FocalTech FTE3600 fingerprint sensor reset line high
+Documentation=https://github.com/yehoshu1/cachyos-fte3600-fingerprint
+Before=fprintd.service
+After=local-fs.target
+
+[Service]
+Type=simple
+# gpioset keeps the line claimed for as long as it runs
+ExecStart=/usr/bin/gpioset -c @GPIO_CHIP@ @GPIO_LINE@=1
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
