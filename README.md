@@ -103,6 +103,9 @@ GPIO_CHIP=gpiochip0 GPIO_LINE=305 ./install.sh
   `linux-headers`, ...)
 * `sudo`
 
+`libgpiod` is installed by the script; it provides `gpioset`, which holds the
+reset line.
+
 ### Manual steps (what the script does)
 
 ```bash

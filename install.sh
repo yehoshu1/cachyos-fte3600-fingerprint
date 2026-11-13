@@ -55,6 +55,9 @@ msg "Installing fprintd"
 # the AUR package provides libfprint-2.so but not the versioned soname
 sudo pacman -S --needed --noconfirm --assume-installed 'libfprint-2.so=2-64' fprintd
 
+msg "Installing libgpiod (used to hold the reset line)"
+sudo pacman -S --needed --noconfirm libgpiod
+
 # ---------------------------------------------------------------------------
 # patch the module: a missing reset GPIO must not abort probe
 # ---------------------------------------------------------------------------
@@ -134,6 +137,10 @@ sudo systemctl restart focal-gpio.service
 msg "Loading the module"
 sudo modprobe -r focal_spi >/dev/null 2>&1 || true
 sudo modprobe focal_spi
+
+if ! systemctl is-active --quiet focal-gpio.service; then
+    die "focal-gpio.service is not running; check: journalctl -u focal-gpio.service"
+fi
 
 # ---------------------------------------------------------------------------
 # PAM
